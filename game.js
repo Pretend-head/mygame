@@ -319,21 +319,24 @@ function create() {
     // SPACE tuşu
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    this.inputLocked = false; // Çift dokunmayı engellemek için kilit
+    this.inputLocked = false;
 
     this.input.on('pointerdown', (pointer) => {
-        if (this.gameOver) return;
-    
-        const now = this.time.now;
-        if (now - this.lastInputTime < this.inputCooldown) {
-            return; // henüz bekleme süresi geçmedi, tekrar etme
-        }
-    
-        this.lastInputTime = now;
-    
-        this.gravityInverted = !this.gravityInverted;
-        this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
-        this.player.setFlipY(this.gravityInverted);
+    if (this.gameOver || this.inputLocked) return;
+
+    const now = this.time.now;
+    if (now - this.lastInputTime < this.inputCooldown) return;
+
+    this.inputLocked = true;
+    this.lastInputTime = now;
+
+    this.gravityInverted = !this.gravityInverted;
+    this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
+    this.player.setFlipY(this.gravityInverted);
+    });
+
+    this.input.on('pointerup', () => {
+    this.inputLocked = false; // parmak kalkınca tekrar girişe izin ver
     });
     
 
