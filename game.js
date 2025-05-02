@@ -38,7 +38,7 @@ function preload() {
     this.load.image('rumeli', 'assets/rumeli.png');
     this.load.image('galata', 'assets/galata.png');
 
-    this.load.image('istanbul', 'assets/istranbul.png');
+    this.load.image('istanbul', 'assets/Istranbul.png');
     this.load.image('sauna', 'assets/sauna-2.png');
     this.load.image('helsinki', 'assets/helsinki-2.png');
     this.load.image('baget', 'assets/baget.png');
