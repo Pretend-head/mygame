@@ -320,13 +320,20 @@ function create() {
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     // Ortak fonksiyon
-    this.toggleGravity = () => {
-        if (this.gameOver) return;
-    
-        this.gravityInverted = !this.gravityInverted;
-        this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
-        this.player.setFlipY(this.gravityInverted);
-    };
+    this.inputLock = false;
+
+   this.toggleGravity = () => {
+    if (this.gameOver || this.inputLock) return;
+
+    this.inputLock = true;
+    this.gravityInverted = !this.gravityInverted;
+    this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
+    this.player.setFlipY(this.gravityInverted);
+
+    this.time.delayedCall(200, () => {
+        this.inputLock = false;
+    });
+};
     
     // Hem dokunmatik hem klavye
     this.input.on('pointerup', () => {
@@ -362,6 +369,11 @@ function create() {
 // ... (önceki preload ve create fonksiyonları aynı kalıyor)
 
 function update() {
+
+    if (this.input.keyboard.checkDown(this.spaceKey, 200)) {
+        this.toggleGravity();
+    }
+
     if (!this.gameOver && this.player.x >= 12947) {
         this.gameOver = true;
     
