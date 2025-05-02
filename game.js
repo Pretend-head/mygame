@@ -321,22 +321,12 @@ function create() {
 
     this.inputLocked = false;
 
-    this.input.on('pointerdown', (pointer) => {
-    if (this.gameOver || this.inputLocked) return;
-
-    const now = this.time.now;
-    if (now - this.lastInputTime < this.inputCooldown) return;
-
-    this.inputLocked = true;
-    this.lastInputTime = now;
-
-    this.gravityInverted = !this.gravityInverted;
-    this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
-    this.player.setFlipY(this.gravityInverted);
-    });
-
-    this.input.on('pointerup', () => {
-    this.inputLocked = false; // parmak kalkınca tekrar girişe izin ver
+    this.input.on('pointerup', (pointer) => {
+        if (this.gameOver) return;
+    
+        this.gravityInverted = !this.gravityInverted;
+        this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
+        this.player.setFlipY(this.gravityInverted);
     });
     
 
