@@ -316,8 +316,12 @@ function create() {
     // SPACE tuşu
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    this.inputLocked = false; // Çift dokunmayı engellemek için kilit
     this.input.on('pointerdown', () => {
-        if (this.gameOver) this.scene.restart();
+        if (this.gameOver && !this.inputLocked) {
+            this.inputLocked = true; // Yeniden başlatma kilitlensin
+            this.scene.restart();    // Sadece bir kez çalışır
+        }
     });
 
     this.restartText = this.add.text(400, 300, '', {
@@ -326,6 +330,9 @@ function create() {
         fontFamily: 'Arial',
         align: 'center'
     }).setOrigin(0.5).setDepth(1);
+    
+    
+    
 
     // Kamera ayarları
     // Kamera hızı başlangıçta oyuncu hızıyla eşit
@@ -356,7 +363,7 @@ function update() {
         this.player.anims.stop();
         this.player.setVelocity(0);
     }
-    
+
     if (!this.gameOver) {
         // Oyuncu bitiş noktasına geldiyse önce kontrol et
         if (this.player.x >= 12947 && !this.gameOver) {
