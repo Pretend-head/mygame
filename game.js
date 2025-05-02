@@ -319,14 +319,22 @@ function create() {
     // SPACE tuşu
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    this.inputLocked = false;
-
-    this.input.on('pointerup', (pointer) => {
+    // Ortak fonksiyon
+    this.toggleGravity = () => {
         if (this.gameOver) return;
     
         this.gravityInverted = !this.gravityInverted;
         this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
         this.player.setFlipY(this.gravityInverted);
+    };
+    
+    // Hem dokunmatik hem klavye
+    this.input.on('pointerup', () => {
+        this.toggleGravity();
+    });
+    
+    this.input.keyboard.on('keydown-SPACE', () => {
+        this.toggleGravity();
     });
     
 
