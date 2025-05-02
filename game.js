@@ -317,6 +317,7 @@ function create() {
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     this.inputLocked = false; // Çift dokunmayı engellemek için kilit
+
     this.input.on('pointerdown', () => {
         if (!this.gameOver) {
             this.gravityInverted = !this.gravityInverted;
@@ -376,11 +377,7 @@ function update() {
         this.bg1.tilePositionX = this.cameras.main.scrollX;
         this.cameras.main.scrollX += this.cameraScrollSpeed * this.game.loop.delta / 1000;
 
-        if (Phaser.Input.Keyboard.JustDown(this.spaceKey) || this.input.activePointer.isDown) {
-            this.gravityInverted = !this.gravityInverted;
-            this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
-            this.player.setFlipY(this.gravityInverted);
-        }
+        
 
         // Hızlandırma
         playerSpeed += 0.05;
