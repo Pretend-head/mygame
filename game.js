@@ -318,9 +318,10 @@ function create() {
 
     this.inputLocked = false; // Çift dokunmayı engellemek için kilit
     this.input.on('pointerdown', () => {
-        if (this.gameOver && !this.inputLocked) {
-            this.inputLocked = true; // Yeniden başlatma kilitlensin
-            this.scene.restart();    // Sadece bir kez çalışır
+        if (!this.gameOver) {
+            this.gravityInverted = !this.gravityInverted;
+            this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
+            this.player.setFlipY(this.gravityInverted);
         }
     });
 
