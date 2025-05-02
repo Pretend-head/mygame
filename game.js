@@ -94,6 +94,9 @@ function preload() {
 }
 
 function create() {
+    this.lastInputTime = 0;
+    this.inputCooldown = 200; // milisaniye cinsinden minimum süre (örneğin 200ms)
+
     this.anims.create({
         key: 'run',
         frames: this.anims.generateFrameNumbers('player_run', { start: 0, end: 7 }),
@@ -318,13 +321,21 @@ function create() {
 
     this.inputLocked = false; // Çift dokunmayı engellemek için kilit
 
-    this.input.on('pointerdown', () => {
-        if (!this.gameOver) {
-            this.gravityInverted = !this.gravityInverted;
-            this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
-            this.player.setFlipY(this.gravityInverted);
+    this.input.on('pointerdown', (pointer) => {
+        if (this.gameOver) return;
+    
+        const now = this.time.now;
+        if (now - this.lastInputTime < this.inputCooldown) {
+            return; // henüz bekleme süresi geçmedi, tekrar etme
         }
+    
+        this.lastInputTime = now;
+    
+        this.gravityInverted = !this.gravityInverted;
+        this.physics.world.gravity.y = this.gravityInverted ? -300 : 300;
+        this.player.setFlipY(this.gravityInverted);
     });
+    
 
     this.restartText = this.add.text(400, 300, '', {
         fontSize: '32px',
