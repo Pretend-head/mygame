@@ -404,7 +404,7 @@ function update() {
         
 
         // Hızlandırma
-        playerSpeed += 0.1;
+        playerSpeed += 0.7;
         this.cameraScrollSpeed = playerSpeed;
         this.player.setVelocityX(playerSpeed);
         this.player.anims.msPerFrame = Phaser.Math.Clamp(1000 / (playerSpeed / 10), 1000 / 30, 1000 / 16);
