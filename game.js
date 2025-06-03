@@ -10,7 +10,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 500 },
             debug: false // Çarpışma kutularını görebilmek için aktif
         }
     },
@@ -23,7 +23,7 @@ const config = {
 
 const game = new Phaser.Game(config);
 
-let playerSpeed = 150; // Daha hızlı başlangıç hızı // Başlangıç hızı
+let playerSpeed = 250; // Daha hızlı başlangıç hızı // Başlangıç hızı
 let bitisGeldi = false;
 
 
@@ -404,7 +404,7 @@ function update() {
         
 
         // Hızlandırma
-        playerSpeed += 0.05;
+        playerSpeed += 0.1;
         this.cameraScrollSpeed = playerSpeed;
         this.player.setVelocityX(playerSpeed);
         this.player.anims.msPerFrame = Phaser.Math.Clamp(1000 / (playerSpeed / 10), 1000 / 30, 1000 / 16);
